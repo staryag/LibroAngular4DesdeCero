@@ -5,16 +5,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FechaactualComponent } from './fechaactual/fechaactual.component';
 import { CopyrightComponent } from './copyright/copyright.component';
+import { ViewmodeloComponent } from './viewmodelo/viewmodelo.component';
+import { EjmetodoComponent } from './ejmetodo/ejmetodo.component';
+import { EjpropertybindingComponent } from './ejpropertybinding/ejpropertybinding.component';
+import { EjeventbindingComponent } from './ejeventbinding/ejeventbinding.component';
+import { Ej2waybindingComponent } from './ej2waybinding/ej2waybinding.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     FechaactualComponent,
-    CopyrightComponent
+    CopyrightComponent,
+    ViewmodeloComponent,
+    EjmetodoComponent,
+    EjpropertybindingComponent,
+    EjeventbindingComponent,
+    Ej2waybindingComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
