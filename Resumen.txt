@@ -1,0 +1,220 @@
+
+
+*******************************************  DATA BINDING  *********************************************
+
+- Interpolación
+
+    {{ propiedad/objeto/expresión }}
+
+  Ejemplo:
+
+          <div class="container">
+            <h4>Información del Alumno</h4>
+            <hr>
+            <h5>id: {{ alumno1.id }}</h5>
+            <hr>
+            <h5>Nombre: {{ alumno1.nombre }}</h5>
+            <hr>
+            <h5>Apellidos: {{ alumno1.apellidos }}</h5>
+            <hr>
+            <h5>Ciudad: {{ alumno1.ciudad }}</h5>
+            <hr>
+          </div>
+
+
+- Property Binding
+
+    [ atributodelelementoHTML ] = " expresión "
+
+  Ejemplo:
+
+          <input type="text" [placeholder]="unAtributo">
+
+
+- Event Binding
+
+    evento="nombreMetodo()";
+
+  Ejemplo:
+
+          <button class="btn btn-success"
+                  (click)="modTexto()">Modificar Texto</button>
+          <h3>{{ texto }}</h3>
+
+
+- Two Way Binding
+
+    [( directiva )] = "nombredelapropiedad"
+
+  Ejemplo:
+
+          <label>Introduce un valor</label>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="texto">
+          <h3>{{texto}}</h3>
+
+********************************************************************************************************
+
+
+********************************************  DIRECTIVAS  **********************************************
+
+- ngIf
+
+    *ngIf="expresión/propiedad/metodo"
+
+  Ejemplo:
+
+          <div class="container">
+          <label>Nombre y Apellidos</label>
+          <input type="text"
+                 class="form-control" ①
+                 [(ngModel)]="nombre"
+                 placeholder="Complete su nombre y apellidos">
+          <button type="submit"
+                  class="btn btn-primary"
+                  *ngIf="nombre">Enviar</button>
+          </div>
+
+
+- ngStyle
+
+    [ngStyle]="{ expresión/propiedad/método }"
+
+  Ejemplo:
+
+          <h4>Introduzca la puntuación del Alumno</h4>
+          <input type="number"
+                 class="form-control"
+                 [(ngModel)]="puntuacion">
+          <hr>
+          <h4 style="display: inline-block;">Puntuación obtenida: </h4>
+          <h4 style="display: inline-block;"
+              [ngStyle]="{color:setColor()}">{{puntuacion}}</h4>
+
+
+- ngClass
+
+  Ejemplo:
+
+          <h4>Introduzca la puntuación del Alumno</h4>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="puntuacion">
+          <hr>
+          <div *ngIf="puntuacion">
+          <h4 *ngIf="puntuacion >= 0 && puntuacion <= 10; else aviso"
+              [ngClass]="{ aprobado: puntuacion >= 5,
+                           suspenso: puntuacion <5 }">
+              Puntuación obtenida: {{ puntuacion }}</h4>
+          <ng-template #aviso>
+          <h4 *ngIf="puntuacion > 10"
+              class="advertencia">
+              Introduzca una puntuación menor a 10</h4>
+          <h4 *ngIf="puntuacion < 0"
+              class="advertencia">
+              Introduzca una puntuación mayor o igual a 0</h4>
+          </ng-template>
+
+  Nota: aprobado y suspenso son dos clases declaradas en el archivo css del componente
+
+
+- ngFor
+
+    *ngFor="let objeto/propiedad of objetos/propiedades"
+
+  Ejemplos:
+
+          1)
+
+          <h3>Cursos Disponibles</h3>
+          <ul>
+            <li *ngFor="let curso of cursos">
+              <h4>{{curso}}</h4>
+            </li>
+          </ul>
+
+
+          2)
+
+          En el archivo xxx.component.ts
+
+          public alumnos: Array<Alumno> = [
+            {id: 1 , nombre: 'Juan', apellidos: 'Gutierrez', ciudad: 'Madrid'},
+            {id: 2 , nombre: 'Pedro', apellidos: 'Lopez', ciudad: 'Sevilla'}
+          ];
+
+
+          En el archivo xxx.component.html
+
+          <table class="table table-bordered table-striped tabla">
+            <thead>
+              <tr class="filters">
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Ciudad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let alumno of alumnos">
+                <td>{{ alumno.id }}</td>
+                <td>{{ alumno.nombre }}</td>
+                <td>{{ alumno.apellidos }}</td>
+                <td>{{ alumno.ciudad }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+- NgSwitch
+
+  Ejemplo:
+
+          <div class="text-center">
+            <ul *ngFor="let jugador of jugadores" [ngSwitch]="jugador.equipo">
+              <li *ngSwitchCase="'L.A. Lakers'"
+                  class="lakers">
+                <h3>{{jugador.nombre}}</h3>
+                <h3 class="equipo"> {{jugador.equipo}} </h3>
+              </li>
+              <li *ngSwitchCase="'Boston Celtics'"
+                  class="celtics">
+                <h3>{{jugador.nombre}}</h3>
+                <h3 class="equipo"> {{jugador.equipo}} </h3>
+              </li>
+              <li *ngSwitchCase="'Chicago Bulls'"
+                  class="bulls">
+                <h3>{{jugador.nombre}}</h3>
+                <h3 class="equipo"> {{jugador.equipo}} </h3>
+              </li>
+            </ul>
+          </div>
+
+
+- Creación de directivas propiedades
+
+    ng generate directive menuitem
+
+  Ejemplo:
+
+          En el archivo xxx.directive.ts
+
+          import { Directive, HostListener, HostBinding } from '@angular/core';
+          @HostBinding ('class.itemOrange') private mostrar: boolean = false;
+          @HostListener('mouseover') onOver() {
+            this.mostrar = true;
+          }
+          @HostListener('mouseout') onOut() {
+            this.mostrar = false;
+          }
+
+          Y luego utilizamos la directiva
+
+          <div class="container">
+            <h1 appMenuitem>Título</h1>
+            <h1 appMenuitem>Descripción</h1>
+            <h1 appMenuitem>Precio</h1>
+          </div>
+
+********************************************************************************************************
